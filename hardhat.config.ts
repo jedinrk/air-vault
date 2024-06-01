@@ -6,6 +6,9 @@ const INFURA_API_KEY = vars.get("INFURA_API_KEY");
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545"
+    },
     hardhat: {
     },
     sepolia: {
