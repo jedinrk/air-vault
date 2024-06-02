@@ -5,7 +5,7 @@ import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
 describe("AirVault", function () {
   let fudToken: any, winToken: any, airVault: any;
   let owner, user1: any, user2: any;
-  const windowSize = 10;
+  const blockInterval = 100;
 
   before(async function () {
     [owner, user1, user2] = await ethers.getSigners();
@@ -24,7 +24,7 @@ describe("AirVault", function () {
     airVault = await ethers.deployContract("AirVault", [
       fudToken.getAddress(),
       winToken.getAddress(),
-      windowSize,
+      blockInterval,
       owner.address,
     ]);
 
@@ -114,4 +114,14 @@ describe("AirVault", function () {
       airVault.connect(user1).withdraw(withdrawAmount)
     ).to.be.revertedWith("Insufficient balance for the user");
   });
+
+  it("should be able to update the block interval for airdrop", async function () {
+    const currentBlockInterval = await airVault.blockInterval();
+
+    expect(currentBlockInterval).to.equal(100)
+
+    await airVault.updateBlockInterval(500);
+    
+    expect(await airVault.blockInterval()).to.equal(500)
+  })
 });
