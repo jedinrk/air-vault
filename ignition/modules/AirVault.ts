@@ -1,13 +1,15 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+import { vars } from "hardhat/config";
+
 
 const AirVaultModule = buildModule("AirVaultModule", (m) => {
   const tokenOwner = m.getAccount(0);
 
-  const fudTokenAddress = "0xD3b7E82d32D842958E3F01fD9490b57e66bA068F";
-  const winTokenAddress = "0x443161F34026eC906D33D8575a4D69E3332C9181";
+  const fudTokenAddress = vars.get("FUD_TOKEN_ADDRESS");
+  const winTokenAddress = vars.get("WIN_TOKEN_ADDRESS");
   const blockInterval = 100;
 
-  /**Deploying FUDToken */
+  /**Deploying AirVault contract */
   const airVault = m.contract("AirVault", [
     fudTokenAddress,
     winTokenAddress,
