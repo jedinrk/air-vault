@@ -101,7 +101,7 @@ contract AirVault is Ownable, ReentrancyGuard {
         return userDepositBalance[account];
     }
 
-    function updateBlockInterval(uint256 _blockInterval) external returns(bool){
+    function updateBlockInterval(uint256 _blockInterval) external onlyOwner returns(bool){
         blockInterval = _blockInterval;
         return true;
     }
