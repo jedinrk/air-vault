@@ -111,7 +111,56 @@ The backend service is located in the `airvault-backend` folder.
     ```
     (update the interval if required inside the runAirdrop.js script)
 
-### Suggested Enhancements
+
+## Configuration Variables
+
+### Hardhat Project
+
+Variables for the Hardhat project are set via tasks in the `vars` scope and can be retrieved in the config using the `vars` object. This approach is recommended by Hardhat over using `.env` and `dotenv`.
+
+To set the variables, you can use the following command:
+
+```sh
+npx hardhat vars set <VARIABLE_NAME> <VARIABLE_VALUE>
+```
+
+For example, to set the INFURA_API_KEY:
+```sh
+npx hardhat vars set INFURA_API_KEY <your_infura_api_key>
+```
+
+Other variables to configure include:
+
+* PVT_KEY_1: Your private key for deploying and interacting with the contracts.
+* FUD_TOKEN_ADDRESS: The deployed address of the FUD token contract.
+* WIN_TOKEN_ADDRESS: The deployed address of the WIN token contract.
+
+These variables are required for unit tests as well.
+
+### Backend Service
+
+The backend service uses dotenv and a .env file to manage configuration variables. Ensure you create a .env file in the airvault-backend directory with the following content:
+
+```
+NETWORK=sepolia
+INFURA_PROJECT_ID=<your_infura_project_id>
+PRIVATE_KEY=<your_private_key>
+WIN_TOKEN_ADDRESS=<deployed_win_token_address>
+AIRVAULT_CONTRACT_ADDRESS=<deployed_airvault_contract_address>
+AIRDROP_INTERVAL=100
+```
+
+* NETWORK: The network to connect to (e.g., sepolia).
+* INFURA_PROJECT_ID: Your Infura project ID for connecting to the Ethereum network.
+* PRIVATE_KEY: The private key for the account that will interact with the contracts.
+* WIN_TOKEN_ADDRESS: The deployed address of the WIN token contract.
+* AIRVAULT_CONTRACT_ADDRESS: The deployed address of the AirVault contract.
+* AIRDROP_INTERVAL: The number of blocks between each airdrop.
+
+Make sure to replace the placeholder values with your actual configuration data.
+
+
+## Suggested Enhancements
 
 - **State Management with DynamoDB**: For production, use AWS DynamoDB to store the `lastProcessedBlock` and other state information. This ensures reliable and scalable state management integrated within the AWS ecosystem.
 
