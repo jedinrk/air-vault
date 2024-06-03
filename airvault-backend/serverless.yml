@@ -1,0 +1,26 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: skywalker
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: airvault
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: airvault-backend
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    INFURA_PROJECT_ID: ${env:INFURA_PROJECT_ID, "fallback value"}
+    PRIVATE_KEY: ${env:PRIVATE_KEY}
+    AIRVAULT_CONTRACT_ADDRESS: ${env:AIRVAULT_CONTRACT_ADDRESS}
+
+functions:
+  monitorDeposits:
+    handler: handler.monitorDeposits
+    events:
+      - schedule: rate(5 minutes)  # Adjust the schedule as needed
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin

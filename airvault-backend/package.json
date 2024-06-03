@@ -1,0 +1,20 @@
+{
+  "name": "airvault-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "serverless offline"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ethers": "^5.4",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^13.6.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
