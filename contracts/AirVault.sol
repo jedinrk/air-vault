@@ -18,8 +18,8 @@ contract AirVault is Ownable {
     mapping(address => DepositInfo[]) public userDeposits; // Deposits per user
     mapping(address => uint256) public userDepositBalance; // Total FUD token deposit by each address
 
-    event Deposited(address indexed user, uint256 amount, uint256 newBalance);
-    event Withdrawn(address indexed user, uint256 amount, uint256 newBalance);
+    event Deposited(address indexed user, uint256 amount, uint256 newBalance, uint256 blockNumber);
+    event Withdrawn(address indexed user, uint256 amount, uint256 newBalance, uint256 blockNumber);
 
     constructor(
         IERC20 _fudToken,
@@ -52,7 +52,7 @@ contract AirVault is Ownable {
         userDepositBalance[msg.sender] += amount;
         totalDeposits += amount;
 
-        emit Deposited(msg.sender, amount, userDepositBalance[msg.sender]);
+        emit Deposited(msg.sender, amount, userDepositBalance[msg.sender], newDeposit.blockNumber);
         return true;
     }
 
@@ -89,7 +89,7 @@ contract AirVault is Ownable {
         totalDeposits -= amount;
         require(fudToken.transfer(msg.sender, amount), "Transfer failed");
 
-        emit Withdrawn(msg.sender, amount, userDepositBalance[msg.sender]);
+        emit Withdrawn(msg.sender, amount, userDepositBalance[msg.sender], block.number);
         return true;
     }
 

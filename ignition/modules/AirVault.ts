@@ -7,7 +7,7 @@ const AirVaultModule = buildModule("AirVaultModule", (m) => {
 
   const fudTokenAddress = vars.get("FUD_TOKEN_ADDRESS");
   const winTokenAddress = vars.get("WIN_TOKEN_ADDRESS");
-  const blockInterval = 100;
+  const blockInterval = 50;
 
   /**Deploying AirVault contract */
   const airVault = m.contract("AirVault", [
