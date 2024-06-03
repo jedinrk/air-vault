@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { ethers, network } from "hardhat";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
+import { time } from "@nomicfoundation/hardhat-network-helpers";
 
 describe("AirVault", function () {
   let fudToken: any, winToken: any, airVault: any;
@@ -53,12 +54,15 @@ describe("AirVault", function () {
     const depositAmount = ethers.parseEther("100");
     await fudToken.connect(user1).approve(airVault.getAddress(), depositAmount);
 
+    const blockNumber = await time.latestBlock();
+
     await expect(airVault.connect(user1).deposit(depositAmount))
       .to.emit(airVault, "Deposited")
       .withArgs(
         user1.address,
         depositAmount,
-        depositAmount + userLockedBalance
+        depositAmount + userLockedBalance,
+        blockNumber + 1
       );
   });
 
@@ -97,12 +101,15 @@ describe("AirVault", function () {
       user1.address
     );
 
+    const blockNumber = await time.latestBlock();
+
     await expect(airVault.connect(user1).withdraw(withdrawAmount))
       .to.emit(airVault, "Withdrawn")
       .withArgs(
         user1.address,
         withdrawAmount,
-        userBalanceAfterDeposit - withdrawAmount
+        userBalanceAfterDeposit - withdrawAmount,
+        blockNumber + 1
       );
   });
 
@@ -118,10 +125,20 @@ describe("AirVault", function () {
   it("should be able to update the block interval for airdrop", async function () {
     const currentBlockInterval = await airVault.blockInterval();
 
-    expect(currentBlockInterval).to.equal(100)
+    expect(currentBlockInterval).to.equal(100);
 
     await airVault.updateBlockInterval(500);
-    
-    expect(await airVault.blockInterval()).to.equal(500)
-  })
+
+    expect(await airVault.blockInterval()).to.equal(500);
+  });
+
+  it("should not be able to update the block interval for airdrop other than owner", async function () {
+    const currentBlockInterval = await airVault.blockInterval();
+
+    expect(currentBlockInterval).to.equal(500);
+
+    await expect(airVault.connect(user1).updateBlockInterval(100))
+      .to.be.revertedWithCustomError(airVault, "OwnableUnauthorizedAccount")
+      .withArgs(user1.address);
+  });
 });
