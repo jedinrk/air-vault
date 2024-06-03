@@ -14,9 +14,4 @@ contract FUDToken is ERC20, Ownable {
     function maxSupply() public pure returns (uint256) {
         return _maxSupply;
     }
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        require(totalSupply() + amount <= _maxSupply, "ERC20: max supply exceeded");
-        _mint(to, amount);
-    }
 }
