@@ -1,6 +1,6 @@
 # AirVault and Airdrop Service
 
-A prototype for a vault contract and airdrop rewarding tokens for staking tokens. This project involves two main components: a smart contract (AirVault) that allows users to deposit and withdraw ERC20 tokens, and a backend service that airdrops reward tokens (WIN) based on the amount of tokens deposited over a configurable interval of blocks.
+A prototype for a vault contract and airdrop rewarding tokens for staking tokens. This project involves two main modules: Smart contracts FUDToken and WINToken for ERC20 tokens and a smart contract (AirVault) that allows users to deposit and withdraw ERC20 tokens (FUD), and a backend service that airdrops reward tokens (WIN) based on the amount of tokens deposited over a configurable interval of blocks.
 
 ## Frameworks, Libraries, and Design Decisions
 
