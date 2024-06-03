@@ -3,8 +3,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract AirVault is Ownable {
+contract AirVault is Ownable, ReentrancyGuard {
     IERC20 public fudToken;
     IERC20 public winToken;
     uint256 public blockInterval; // Block Interval in which we want to airdrop WIN tokens
@@ -59,7 +60,7 @@ contract AirVault is Ownable {
     /**
      * Withdraws deposited FUD tokens for the requesting user.
      */
-    function withdraw(uint256 amount) external returns (bool) {
+    function withdraw(uint256 amount) external nonReentrant returns (bool) {
         require(
             userDepositBalance[msg.sender] >= amount,
             "Insufficient balance for the user"
