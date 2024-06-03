@@ -72,7 +72,9 @@ contract AirVault is Ownable, ReentrancyGuard {
          * The amount for each particular deposit is also updated accordingly as we collect the required amount.
          */
         uint256 remainingAmountToWithdraw = amount;
-        for (uint256 i = userDeposits[msg.sender].length; i > 0; i--) {
+        uint256 length = userDeposits[msg.sender].length;
+
+        for (uint256 i = length; i > 0; i--) {
             if (remainingAmountToWithdraw == 0) break;
 
             DepositInfo storage depositInfo = userDeposits[msg.sender][i - 1];
