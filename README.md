@@ -162,11 +162,19 @@ Make sure to replace the placeholder values with your actual configuration data.
 
 ## Suggested Enhancements
 
-- **State Management with DynamoDB**: For production, use AWS DynamoDB to store the `lastProcessedBlock` and other state information. This ensures reliable and scalable state management integrated within the AWS ecosystem.
+### State Management with DynamoDB 
 
-### Example Configuration for AWS DynamoDB (Optional)
+For production, use AWS DynamoDB to store the `lastProcessedBlock` and other state information. This ensures reliable and scalable state management integrated within the AWS ecosystem.
+
+**Example Configuration for AWS DynamoDB**: (Optional)
 
 1. Create a DynamoDB table with a primary key `id`.
 2. Modify the Lambda function to read/write the `lastProcessedBlock` from/to DynamoDB instead of `state.json`.
 
-This setup ensures that the project is organized, the dependencies are managed correctly, and the deployment process is streamlined using modern development tools and practices.
+### Private Key Management with AWS Secrets
+
+Storing private keys in `.env` files is convenient for development and local testing but is not secure for production environments, especially for services like AWS Lambda. 
+A solution for securely managing sensitive information like private keys is to use services like AWS Secrets Manager is designed to securely store and manage sensitive information such as database credentials, API keys, and private keys.
+
+- Advantages: Integrated with other AWS services, automatic rotation of secrets, fine-grained access control.
+- Usage: Store your private key in AWS Secrets Manager. Use AWS SDK in your Lambda function to retrieve the secret at runtime.
